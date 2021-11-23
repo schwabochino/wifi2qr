@@ -1,11 +1,15 @@
+import tkinter
+
 import qrcode
 import datetime
 from tkinter import *
 
 
-def qr_gen(eingabe_ssid, eingabe_psw):
+def qr_gen():
     t = datetime.datetime.now()
-    input_data = f'WIFI:T:WPA;S:{eingabe_ssid};P:{eingabe_psw};;'
+    ssid = ssid_input.get()
+    psw = psw_input.get()
+    input_data = f'WIFI:T:WPA;S:{ssid};P:{psw};;'
 
     # Optional Output in Console
     print(input_data)
@@ -58,7 +62,8 @@ button_make = Button(window,
                      text="Make QR",
                      bg='red',
                      fg='white',
-                     command=lambda: qr_gen(str(ssid), str(psw)))
+                     command=lambda: qr_gen())
+
 button_make.grid(row=3, column=1)
 
 window.mainloop()
