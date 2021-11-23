@@ -1,5 +1,3 @@
-import tkinter
-
 import qrcode
 from tkinter import *
 from PIL import Image, ImageDraw, ImageFont
