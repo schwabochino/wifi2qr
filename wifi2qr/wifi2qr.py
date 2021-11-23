@@ -13,7 +13,6 @@ def qr_cred(ssid_cred, psw_cred):
                              f'Passwort: {psw_cred}',
                    font=cred_font, fill=(0, 0, 0))
 
-    #emp_img.show()
     emp_img.save('qrcode/cred.png')
 
     bilda = Image.open('qrcode/qr.png')
@@ -69,8 +68,6 @@ ssid_input = Entry(window)
 
 psw_label = Label(window, text='Passwort: ')
 psw_input = Entry(window)
-
-sec_label = Label(window, text='WPA/WPA2 ')
 
 ssid_label.grid(row=0, column=0)
 ssid_input.grid(row=0, column=1)
