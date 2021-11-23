@@ -15,12 +15,12 @@ def qr_cred(ssid_cred, psw_cred):
 
     emp_img.save('qrcode/cred.png')
 
-    bilda = Image.open('qrcode/qr.png')
-    bildb = Image.open('qrcode/cred.png')
+    imga = Image.open('qrcode/qr.png')
+    imgb = Image.open('qrcode/cred.png')
 
     final_image = Image.new('RGB', color='white', size=(350,500))
-    final_image.paste(bilda,(0,0))
-    final_image.paste(bildb,(0,350))
+    final_image.paste(imga,(0,0))
+    final_image.paste(imgb,(0,350))
 
     final_image.show()
 
