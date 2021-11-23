@@ -3,18 +3,16 @@ import tkinter
 import qrcode
 import datetime
 from tkinter import *
+import os
 
 
 def qr_gen():
     t = datetime.datetime.now()
     ssid = ssid_input.get()
     psw = psw_input.get()
+
     input_data = f'WIFI:T:WPA;S:{ssid};P:{psw};;'
-
-    # Optional Output in Console
-    print(input_data)
-
-    # Creating an instance of qrcode
+# Creating an instance of qrcode
 
     qr = qrcode.QRCode(
         version=1,
@@ -25,7 +23,7 @@ def qr_gen():
     qr.make(fit=True)
     img = qr.make_image(fill='black', back_color='white')
     # save img with timestamp
-    img.save(f'qrcode/qr{t}.png')
+    #img.save(f'qrcode/{t}qr.png')
 
 
 # create Window
