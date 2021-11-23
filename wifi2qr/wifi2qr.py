@@ -7,7 +7,7 @@ def qr_gen(eingabe_ssid, eingabe_psw):
     t = datetime.datetime.now()
     input_data = f'WIFI:T:WPA;S:{eingabe_ssid};P:{eingabe_psw};;'
 
-    #Optional Output in Console
+    # Optional Output in Console
     print(input_data)
 
     # Creating an instance of qrcode
@@ -27,11 +27,13 @@ def qr_gen(eingabe_ssid, eingabe_psw):
 # create Window
 window = Tk()
 
+# Window width and heights
 window.geometry('300x300')
+
 # title of Window
 window.title("WiFi2QR")
 
-# Labels
+# Label and Input
 ssid_label = Label(window, text='SSID: ')
 ssid_input = Entry(window)
 
@@ -40,12 +42,8 @@ psw_input = Entry(window)
 
 sec_label = Label(window, text='WPA/WPA2 ')
 
-# Input/Label SSID positioning
-
 ssid_label.grid(row=0, column=0)
 ssid_input.grid(row=0, column=1)
-
-# Input/Label Password
 
 psw_label.grid(row=1, column=0)
 psw_input.grid(row=1, column=1)
@@ -58,6 +56,8 @@ psw = psw_input.get()
 # button with lambda: didn't start the function on startup with empty entries
 button_make = Button(window,
                      text="Make QR",
+                     bg='red',
+                     fg='white',
                      command=lambda: qr_gen(str(ssid), str(psw)))
 button_make.grid(row=3, column=1)
 
