@@ -47,11 +47,18 @@ def qr_gen():
     # qr_show()
 
 
-# create Window
+# create window
 window = Tk()
 
-# Window width and heights
-window.geometry('300x300')
+# get width and height
+window_width = window.winfo_reqwidth()
+window_height = window.winfo_reqheight()
+
+# Gets both half the screen width/height and window width/height
+position_right = int(window.winfo_screenwidth()/2 - window_width/2)
+position_down = int(window.winfo_screenheight()/3 - window_height/2)
+
+window.geometry("+{}+{}".format(position_right, position_down))
 
 # title of Window
 window.title("WiFi2QR")
