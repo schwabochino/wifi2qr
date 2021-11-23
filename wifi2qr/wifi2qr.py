@@ -10,21 +10,22 @@ def qr_cred(ssid_cred, psw_cred):
     cred_draw = ImageDraw.Draw(emp_img)
     cred_font = ImageFont.truetype('Arial Unicode.ttf', 16)
     cred_draw.text((10, 20), f'SSID: {ssid_cred} \n'
-                             f'Passwort: {psw_cred}',
+                             f'Password: {psw_cred}',
                    font=cred_font, fill=(0, 0, 0))
 
     emp_img.save('qrcode/cred.png')
 
-    imga = Image.open('qrcode/qr.png')
-    imgb = Image.open('qrcode/cred.png')
+    img_a = Image.open('qrcode/qr.png')
+    img_b = Image.open('qrcode/cred.png')
 
-    final_image = Image.new('RGB', color='white', size=(350,500))
-    final_image.paste(imga,(0,0))
-    final_image.paste(imgb,(0,350))
+    final_image = Image.new('RGB', color='white', size=(350, 500))
+    final_image.paste(img_a, (0, 0))
+    final_image.paste(img_b, (0, 350))
 
     final_image.show()
 
 
+# generate qr code and save it in qrcode as qr.png
 def qr_gen():
     ssid = ssid_input.get()
     psw = psw_input.get()
@@ -54,8 +55,8 @@ window_width = window.winfo_reqwidth()
 window_height = window.winfo_reqheight()
 
 # Gets both half the screen width/height and window width/height
-position_right = int(window.winfo_screenwidth()/2 - window_width/2)
-position_down = int(window.winfo_screenheight()/3 - window_height/2)
+position_right = int(window.winfo_screenwidth() / 2 - window_width / 2)
+position_down = int(window.winfo_screenheight() / 3 - window_height / 2)
 
 window.geometry("+{}+{}".format(position_right, position_down))
 
@@ -66,7 +67,7 @@ window.title("WiFi2QR")
 ssid_label = Label(window, text='SSID: ')
 ssid_input = Entry(window)
 
-psw_label = Label(window, text='Passwort: ')
+psw_label = Label(window, text='Password: ')
 psw_input = Entry(window)
 
 ssid_label.grid(row=0, column=0)
