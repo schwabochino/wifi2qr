@@ -9,7 +9,9 @@ def qr_cred(ssid_cred, psw_cred):
 
     cred_draw = ImageDraw.Draw(emp_img)
     cred_font = ImageFont.truetype('Arial Unicode.ttf', 16)
-    cred_draw.text((10, 20), f'SSID: {ssid_cred} \nPasswort: {psw_cred}', font=cred_font, fill=(0, 0, 0))
+    cred_draw.text((10, 20), f'SSID: {ssid_cred} \n'
+                             f'Passwort: {psw_cred}',
+                   font=cred_font, fill=(0, 0, 0))
 
     #emp_img.show()
     emp_img.save('qrcode/cred.png')
