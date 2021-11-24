@@ -32,9 +32,12 @@ def qr_cred(ssid_cred, psw_cred):
     final_image.paste(img_a, (0, 0))
     final_image.paste(img_b, (0, 400))
 
+    img_a.close()
+    img_b.close()
+
     final_image.show()
-
-
+    final_image.close()
+    
 # Generate qr code and save it in /qrcode/qr.png
 def qr_gen():
     ssid_gen = ssid_input.get()
