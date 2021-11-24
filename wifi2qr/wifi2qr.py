@@ -41,8 +41,8 @@ def qr_gen():
     psw_gen = psw_input.get()
 
     input_data = f'WIFI:T:WPA;S:{ssid_gen};P:{psw_gen};;'
-    # Creating an instance of qrcode
 
+# Creating an instance of qrcode
     qr = qrcode.QRCode(
         version=1,
         box_size=10,
