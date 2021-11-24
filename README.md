@@ -1,4 +1,4 @@
-# wifi2qr
+# WiFi2QR
 
 wifi2qr is a small Python program for creating QR codes with WiFi credentials. 
 
