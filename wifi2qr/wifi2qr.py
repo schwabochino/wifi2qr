@@ -28,9 +28,9 @@ def qr_cred(ssid_cred, psw_cred):
     img_a = Image.open('qrcode/qr.png')
     img_b = Image.open('qrcode/cred.png')
 
-    final_image = Image.new('RGB', color='white', size=(350, 500))
+    final_image = Image.new('RGB', color='white', size=(400, 500))
     final_image.paste(img_a, (0, 0))
-    final_image.paste(img_b, (0, 350))
+    final_image.paste(img_b, (0, 400))
 
     final_image.show()
 
@@ -73,10 +73,12 @@ window.geometry("+{}+{}".format(position_right, position_down))
 window.title("WiFi2QR")
 
 # Generate label and input
-ssid_label = Label(window, text='SSID: ')
+ssid_label = Label(window,
+                   text='SSID: ')
 ssid_input = Entry(window)
 
-psw_label = Label(window, text='Password: ')
+psw_label = Label(window,
+                  text='Password: ')
 psw_input = Entry(window)
 
 ssid_label.grid(row=0, column=0)
@@ -91,8 +93,6 @@ psw = psw_input.get()
 # Generate button the lambda function prevents execution on startup without the button being clicked
 button_make = Button(window,
                      text="Make QR",
-                     bg='red',
-                     fg='white',
                      command=lambda: qr_gen())
 
 button_make.grid(row=3, column=1)
