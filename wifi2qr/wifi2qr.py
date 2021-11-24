@@ -63,7 +63,7 @@ window = Tk()
 window_width = window.winfo_reqwidth()
 window_height = window.winfo_reqheight()
 
-# Gets both half the screen width/height and window width/height
+# Gets both half the screen width/height and window width/height height / 3 display a little above of the center
 position_right = int(window.winfo_screenwidth() / 2 - window_width / 2)
 position_down = int(window.winfo_screenheight() / 3 - window_height / 2)
 
