@@ -7,5 +7,8 @@ You can use WiFi2QR for quick and easy creation of a Wifi-QR code.
 
 Example:
 
+Userinterface
 ![This is an image of UX](https://raw.githubusercontent.com/schwabochino/wifi2qr/master/exampleimg/wifi2qr.png)
+
+Output in preview
 ![This is an image of QRCode](https://raw.githubusercontent.com/schwabochino/wifi2qr/master/exampleimg/qrcode.png)
