@@ -1,14 +1,18 @@
 # WiFi2QR
-##Still in Testing!
+## Still in Testing!
 
 WiFi2QR is a small Python program for creating QR codes with WiFi credentials. 
 
 You can use WiFi2QR for quick and easy creation of a Wifi-QR code. 
 
-Example:
 
-Userinterface
+### Userinterface
+
+
 ![This is an image of UX](https://raw.githubusercontent.com/schwabochino/wifi2qr/master/exampleimg/wifi2qr.png)
 
-Output in preview
+
+### Output in preview
+
+
 ![This is an image of QRCode](https://raw.githubusercontent.com/schwabochino/wifi2qr/master/exampleimg/qrcode.png)
