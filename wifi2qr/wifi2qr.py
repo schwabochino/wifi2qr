@@ -1,20 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-WiFi2QR – Erzeugt ein kombiniertes QR-Code- und Zutritts-Info-Bild für WLAN-Zugangsdaten.
-
-Benötigte Pakete:
-    pip install qrcode[pil] Pillow
-"""
-
-import os
 import sys
 import datetime
-import qrcode
 from pathlib import Path
-from tkinter import Tk, Label, Entry, Button, messagebox
+from tkinter import Tk, Label, Button, messagebox, Frame
+from tkinter.ttk import Entry, Style
 from PIL import Image, ImageDraw, ImageFont
+import qrcode
 
 # Konfiguration
 OUTPUT_DIR = Path("qrcode")
@@ -29,12 +22,10 @@ FG_COLOR = "black"
 
 
 def ensure_output_dir():
-    """Legt den Ausgabe-Ordner an, falls er nicht existiert."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def load_font(size: int) -> ImageFont.FreeTypeFont:
-    """Versucht, eine TrueType-Schrift zu laden, und verwendet sonst die Default-Schrift."""
     for path in FONT_PATHS:
         try:
             return ImageFont.truetype(path, size)
@@ -44,43 +35,41 @@ def load_font(size: int) -> ImageFont.FreeTypeFont:
 
 
 def generate_wifi_qr(ssid: str, password: str, encryption: str = "WPA") -> Image.Image:
-    """Erzeugt und gibt ein QR-Code-Image für die WLAN-Zugangsdaten zurück."""
     wifi_string = f"WIFI:T:{encryption};S:{ssid};P:{password};;"
-    qr = qrcode.QRCode(
-        version=None,  # automatisch anpassen
-        box_size=10,
-        border=4,
-    )
+    qr = qrcode.QRCode(box_size=10, border=4)
     qr.add_data(wifi_string)
     qr.make(fit=True)
     return qr.make_image(fill_color=FG_COLOR, back_color=BG_COLOR).convert("RGB")
 
 
+def get_text_size(draw, text, font):
+    bbox = draw.textbbox((0, 0), text, font=font)
+    width = bbox[2] - bbox[0]
+    height = bbox[3] - bbox[1]
+    return width, height
+
+
 def compose_final_image(qr_img: Image.Image, ssid: str, password: str) -> Image.Image:
-    """Erzeugt das Endbild mit QR-Code und Text darunter."""
     font = load_font(FONT_SIZE)
-    draw = ImageDraw.Draw(qr_img)
+    dummy = Image.new("RGB", (1, 1))
+    draw = ImageDraw.Draw(dummy)
 
-    # Textzeilen vorbereiten
     lines = [f"SSID: {ssid}", f"Password: {password}"]
-    # Breite und Höhe des Textblocks berechnen
-    text_width = max(draw.textsize(line, font=font)[0] for line in lines)
-    text_height = sum(draw.textsize(line, font=font)[1] for line in lines) + (len(lines)-1)*4
+    widths, heights = zip(*(get_text_size(draw, line, font) for line in lines))
+    text_width = max(widths)
+    text_height = sum(heights) + (len(lines) - 1) * 4
 
-    # Neues Bild größer als QR + Text
-    final_width = max(qr_img.width, text_width + 2*PADDING)
-    final_height = qr_img.height + text_height + 3*PADDING
+    final_width = max(qr_img.width, text_width + 2 * PADDING)
+    final_height = qr_img.height + text_height + 3 * PADDING
     final = Image.new("RGB", (final_width, final_height), BG_COLOR)
 
-    # QR-Code einfügen (zentriert)
     qr_x = (final_width - qr_img.width) // 2
     final.paste(qr_img, (qr_x, PADDING))
 
-    # Text darunter zeichnen
     draw_final = ImageDraw.Draw(final)
-    y_text = qr_img.height + 2*PADDING
+    y_text = qr_img.height + 2 * PADDING
     for line in lines:
-        line_width, line_height = draw_final.textsize(line, font=font)
+        line_width, line_height = get_text_size(draw_final, line, font)
         x_text = (final_width - line_width) // 2
         draw_final.text((x_text, y_text), line, font=font, fill=FG_COLOR)
         y_text += line_height + 4
@@ -89,7 +78,6 @@ def compose_final_image(qr_img: Image.Image, ssid: str, password: str) -> Image.
 
 
 def save_image(img: Image.Image, prefix: str = "wifi2qr") -> Path:
-    """Speichert das Bild mit Zeitstempel und gibt den Pfad zurück."""
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = OUTPUT_DIR / f"{prefix}_{timestamp}.png"
     img.save(filename)
@@ -112,23 +100,34 @@ def on_button_click(ssid_entry: Entry, psw_entry: Entry):
 
 
 def build_gui():
-    """Erstellt und startet das Tkinter-Fenster."""
     window = Tk()
     window.title("WiFi2QR")
 
-    Label(window, text="SSID:").grid(row=0, column=0, padx=5, pady=5, sticky="e")
-    ssid_entry = Entry(window, width=30)
+    style = Style()
+    style.theme_use("clam")
+    style.configure(
+        "Custom.TEntry",
+        foreground="black",
+        fieldbackground="white",
+        background="white",
+    )
+
+    frame = Frame(window, bg=BG_COLOR)
+    frame.pack(padx=10, pady=10)
+
+    Label(frame, text="SSID:", bg=BG_COLOR, fg=FG_COLOR).grid(row=0, column=0, padx=5, pady=5, sticky="e")
+    ssid_entry = Entry(frame, width=30, style="Custom.TEntry")
     ssid_entry.grid(row=0, column=1, padx=5, pady=5)
 
-    Label(window, text="Passwort:").grid(row=1, column=0, padx=5, pady=5, sticky="e")
-    psw_entry = Entry(window, width=30, show="*")
+    Label(frame, text="Passwort:", bg=BG_COLOR, fg=FG_COLOR).grid(row=1, column=0, padx=5, pady=5, sticky="e")
+    psw_entry = Entry(frame, width=30, show="*", style="Custom.TEntry")
     psw_entry.grid(row=1, column=1, padx=5, pady=5)
 
     Button(
-        window,
+        frame,
         text="QR erzeugen",
         command=lambda: on_button_click(ssid_entry, psw_entry),
-        width=15
+        width=20
     ).grid(row=2, column=0, columnspan=2, pady=10)
 
     window.resizable(False, False)
@@ -139,5 +138,5 @@ if __name__ == "__main__":
     try:
         build_gui()
     except Exception as e:
-        print(f"Unbekannter Fehler: {e}", file=sys.stderr)
+        print(f"Unbekannter Fehler: {e}")
         sys.exit(1)
